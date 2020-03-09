@@ -1,11 +1,13 @@
 import java.util.*;
 
 public class Main {
+    
     public static void main(String[] args) throws Exception {
         //Input Data
         int[] initialData = new int[]{10, 15, 2, 100, 53};
         // create instance of Sorter
         DataSorter sorter = new DataSorter(initialData);
+        
         System.out.println("\nModule 1: Selection Sort");
         System.out.println("Array to be sorted is(input):");
         sorter.printArray();
@@ -13,6 +15,7 @@ public class Main {
         sorter.sortUsingSelectionSort();
         System.out.println("Sorted Array is(output):"); 
         sorter.printArray();
+
         System.out.println("\nModule 2: Insertion Sort");
         sorter.setData(new int[]{5, 4, 1, 2, 3});
         System.out.println("Array to be sorted is(input):");
@@ -21,6 +24,7 @@ public class Main {
         sorter.sortUsingInsertionSort();
         System.out.println("Sorted Array is(output):"); 
         sorter.printArray();
+
         System.out.println("\nModule 3: Bubble Sort");
         sorter.setData(new int[]{13, 19, 12, 2, 103});
         System.out.println("Array to be sorted is(input):");
@@ -29,16 +33,15 @@ public class Main {
         sorter.sortUsingBubbleSort();
         System.out.println("Sorted Array is(output):"); 
         sorter.printArray();
+
         System.out.println("\nModule 4: Merge Sort");
         sorter.setData(new int[]{130, 1, 12, 24, 120, 130});
         System.out.println("Array to be sorted is(input):");
         sorter.printArray();
         // call insertion sorting function which has the data
-        sorter.sortUsingBubbleSort();
+        sorter.sortUsingMergeSort();
         System.out.println("Sorted Array is(output):"); 
         sorter.printArray();
-        
-        
     }
 }
 
@@ -122,35 +125,41 @@ class DataSorter {
             high=this.data[n-1];
         
         mergesort(this.data, low, high);
+        printArray();
     }
 
-    void mergesort(int[] A, int low, int high){
-        int mid = (low+high)/2;
-        if(low>high) return;
-        mergesort(A, low, mid);
-        mergesort(A, mid+1, high);
-        mergeSortedArrays(A, low, mid, high);
+   public void mergesort(int[] A, int low, int high){
+        if(low<high){
+            int mid = low+(high-low)/2; 
+            mergesort(A, low, mid);
+            mergesort(A, mid+1, high);
+            mergeSortedArrays(A, low, mid, high);    
+        }
     }
     
-    void mergeSortedArrays(int[] A, int low, int mid, int high){
-        int i=0,j=0,c=0;
-        int[] mergedArray = new int[high-low+1];
-        int nFirst = mid-low+1,
-            nSecond = high-mid,
-            nTotal = nFirst+nSecond;
-        while(c<nTotal){
-            if(j==nSecond){
-                while(i<nFirst) mergedArray[c++]=this.data[i++];
+    public void mergeSortedArrays(int[] A, int low, int mid, int high){
+        int i=low,j=mid+1,c=0;
+        int[] temp = new int[high-low+1];
+        while(i<=mid || j<=high){
+            if(j>high){
+                //copy all first array elements
+                while(i<=mid) temp[c++]=this.data[i++];
                 break;
             }
-            if(i==nFirst){
-                while(j<nSecond) mergedArray[c++]=this.data[j++];
+            if(i>mid){
+                //copy all second array elements
+                while(j<=high) temp[c++]=A[j++];
                 break;
             }
-            if(A[i]<A[j]) mergedArray[c++]=this.data[i++];
-            else mergedArray[c++]=this.data[j++];
+            if(A[i]>A[j]) temp[c++]=A[j++];
+            else if(A[j]>A[i]) temp[c++]=A[i++];
+            else {
+                temp[c++]=A[i];
+                temp[c++]=A[j];
+                j++;i++;
+            }
         }
-        A = mergedArray;
+        for(int l=0;l<temp.length;l++) {A[low+l]=temp[l];}
     }
     
 }
