@@ -21,6 +21,14 @@ public class Main {
         sorter.sortUsingInsertionSort();
         System.out.println("Sorted Array is(output):"); 
         sorter.printArray();
+        System.out.println("\nModule 3: Bubble Sort");
+        sorter.setData(new int[]{13, 19, 12, 2, 103});
+        System.out.println("Array to be sorted is(input):");
+        sorter.printArray();
+        // call insertion sorting function which has the data
+        sorter.sortUsingBubbleSort();
+        System.out.println("Sorted Array is(output):"); 
+        sorter.printArray();
         
         
         
@@ -81,7 +89,23 @@ class DataSorter {
            k++;
        }
     }
+    
+    void sortUsingBubbleSort(){
+        int i=0, n=this.data.length,j=0;
+        while(i<n){
+            j=0;
+            while(j<n-1){
+                int currElement = this.data[j];
+                int nextElement = this.data[j+1];
+                if(currElement > nextElement){
+                    int temp = this.data[j];
+                    this.data[j] = this.data[j+1];
+                    this.data[j+1]=temp;
+                }
+                j++;
+            }
+            i++;    
+        }
+
+    }
 }
-
-
-
