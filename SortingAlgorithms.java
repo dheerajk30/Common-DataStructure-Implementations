@@ -29,7 +29,14 @@ public class Main {
         sorter.sortUsingBubbleSort();
         System.out.println("Sorted Array is(output):"); 
         sorter.printArray();
-        
+        System.out.println("\nModule 4: Merge Sort");
+        sorter.setData(new int[]{130, 1, 12, 24, 120, 130});
+        System.out.println("Array to be sorted is(input):");
+        sorter.printArray();
+        // call insertion sorting function which has the data
+        sorter.sortUsingBubbleSort();
+        System.out.println("Sorted Array is(output):"); 
+        sorter.printArray();
         
         
     }
@@ -108,4 +115,42 @@ class DataSorter {
         }
 
     }
+
+    void sortUsingMergeSort(){
+        int n = this.data.length,
+            low=this.data[0],
+            high=this.data[n-1];
+        
+        mergesort(this.data, low, high);
+    }
+
+    void mergesort(int[] A, int low, int high){
+        int mid = (low+high)/2;
+        if(low>high) return;
+        mergesort(A, low, mid);
+        mergesort(A, mid+1, high);
+        mergeSortedArrays(A, low, mid, high);
+    }
+    
+    void mergeSortedArrays(int[] A, int low, int mid, int high){
+        int i=0,j=0,c=0;
+        int[] mergedArray = new int[high-low+1];
+        int nFirst = mid-low+1,
+            nSecond = high-mid,
+            nTotal = nFirst+nSecond;
+        while(c<nTotal){
+            if(j==nSecond){
+                while(i<nFirst) mergedArray[c++]=this.data[i++];
+                break;
+            }
+            if(i==nFirst){
+                while(j<nSecond) mergedArray[c++]=this.data[j++];
+                break;
+            }
+            if(A[i]<A[j]) mergedArray[c++]=this.data[i++];
+            else mergedArray[c++]=this.data[j++];
+        }
+        A = mergedArray;
+    }
+    
 }
