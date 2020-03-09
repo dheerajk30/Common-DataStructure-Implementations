@@ -3,22 +3,38 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         //Input Data
-        int[] data = new int[]{10, 15, 2, 100, 53};
+        int[] initialData = new int[]{10, 15, 2, 100, 53};
         // create instance of Sorter
-        SelectionSorter sorter = new SelectionSorter(data);
+        DataSorter sorter = new DataSorter(initialData);
+        System.out.println("\nModule 1: Selection Sort");
         System.out.println("Array to be sorted is(input):");
         sorter.printArray();
-        // call sorting function which has the data
-        sorter.sortUsingSelection();
+        // call selection sorting function which has the data
+        sorter.sortUsingSelectionSort();
         System.out.println("Sorted Array is(output):"); 
         sorter.printArray();
+        System.out.println("\nModule 2: Insertion Sort");
+        sorter.setData(new int[]{5, 4, 1, 2, 3});
+        System.out.println("Array to be sorted is(input):");
+        sorter.printArray();
+        // call insertion sorting function which has the data
+        sorter.sortUsingInsertionSort();
+        System.out.println("Sorted Array is(output):"); 
+        sorter.printArray();
+        
+        
+        
     }
 }
 
-class SelectionSorter {
+class DataSorter {
     int[] data;
     
-    SelectionSorter(int[] data){
+    DataSorter(int[] data){
+        this.data = data;
+    }
+    
+    void setData(int[] data){
         this.data = data;
     }
     
@@ -29,7 +45,7 @@ class SelectionSorter {
      System.out.println();
     }
     
-    void sortUsingSelection(){
+    void sortUsingSelectionSort(){
         int k=0, n=this.data.length,min=Integer.MAX_VALUE;
         // start finding kth smallest element and replace it with kth indexed element
         while(k<n){
@@ -48,4 +64,24 @@ class SelectionSorter {
             k++;
         }
     }
+    
+    void sortUsingInsertionSort(){
+       // k signifies last index of the sorted subarray
+       int k=0,n=this.data.length;   
+       while(k<n){
+           int j=0;
+           while(j<k){
+               if(this.data[j]>this.data[k]){
+                   int temp = this.data[j];
+                   this.data[j]=this.data[k];
+                   this.data[k]=temp;
+               }
+               j++;
+           }
+           k++;
+       }
+    }
 }
+
+
+
