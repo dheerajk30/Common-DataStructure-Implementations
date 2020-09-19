@@ -113,7 +113,6 @@ class MyList{
                 nxt.next = null;       
             }
         }    
-
     }
     
     //O(n) operation
@@ -141,14 +140,62 @@ class MyList{
     void reverse() {
         Node prev = null;
         Node curr = this.root;
-        Node nxt = curr.next;
+        Node nxt;
         while(curr != null){
+            //cache
             nxt = curr.next;     
-            curr.next = prev;    
+            
+            //update link
+            curr.next = prev;
+            
+            //update pointers
             prev = curr;
             curr = nxt;
         }
         this.root = prev;
+    }
+    
+    void segmentedReverse(int k){
+        Node prev = null;
+        Node currStart = this.root;
+        Node currEnd = this.root;
+        Node nxt;
+        while(currStart!=null && currEnd!=null){
+            //update currEnd
+            Node temp = currStart;
+            int counter = 0;
+            while(temp!=null && counter<k-1){
+                counter++;
+                temp = temp.next;
+            }
+            currEnd = temp;
+            
+            //1. Cache
+            nxt = currEnd.next;
+            
+            //2. Reverse Segment
+            Node p = null;
+            Node c = currStart;
+            Node n;
+            int count = 0;
+            while(c != null && count<k){
+                n = c.next;
+                c.next = p;
+                p = c;
+                c = n;
+                count++;
+            }
+            
+            //3. Update pointers
+            if(prev!=null)
+                prev.next = currEnd;
+            else
+                this.root = currEnd;
+            
+            currStart.next = nxt;
+            prev = currStart;
+            currStart = nxt;
+        }
     }
     
     //O(n) Operation
@@ -181,6 +228,9 @@ public class Main {
         
         list.addElementAtStart(1);
         list.printList();   
+        
+        list.segmentedReverse(2);
+        list.printList();
         
         list.addElementAtkthIndexFromStart(6, 2);
         list.printList();   
