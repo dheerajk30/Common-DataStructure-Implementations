@@ -35,7 +35,7 @@ class MyList{
     }
     
     //O(n) Operation
-    void addElementAtkthIndex(int val, int k){
+    void addElementAtkthIndexFromStart(int val, int k){
         Node node = new Node(val);
         if(this.root == null){
             this.root = node;
@@ -51,6 +51,27 @@ class MyList{
             node.next = temp.next;
         
         temp.next = node;
+    }
+    
+    //O(n) operation
+    void addElementAtKthIndexFromEnd(int val, int k) {
+        Node curr = this.root;
+        int counter = 0;
+        Node nxt = this.root;
+        while(nxt != null && counter < k){
+            nxt = nxt.next;
+            counter++;
+        }
+        if(nxt != null){
+            while(nxt.next != null){
+                nxt = nxt.next;
+                curr = curr.next;
+            }
+            
+            Node element = new Node(val);    
+            element.next = curr.next;
+            curr.next = element;
+        }
     }
     
     void deleteElementAtStart(){
@@ -95,6 +116,41 @@ class MyList{
 
     }
     
+    //O(n) operation
+    void deleteElementAtKthIndexFromEnd(int k) {
+        Node curr = this.root;
+        int counter = 0;
+        Node nxt = this.root;
+        while(nxt != null && counter < k+1){
+            nxt = nxt.next;
+            counter++;
+        }
+        if(nxt != null){
+            while(nxt.next != null){
+                nxt = nxt.next;
+                curr = curr.next;
+            }
+            if(curr.next != null){
+                Node temp =  curr.next.next;
+                curr.next.next = null;
+                curr.next = temp;
+            }
+        }
+    }
+    
+    void reverse() {
+        Node prev = null;
+        Node curr = this.root;
+        Node nxt = curr.next;
+        while(curr != null){
+            nxt = curr.next;     
+            curr.next = prev;    
+            prev = curr;
+            curr = nxt;
+        }
+        this.root = prev;
+    }
+    
     //O(n) Operation
     void printList(){
         if(this.root == null) {
@@ -126,13 +182,13 @@ public class Main {
         list.addElementAtStart(1);
         list.printList();   
         
-        list.addElementAtkthIndex(6, 2);
+        list.addElementAtkthIndexFromStart(6, 2);
         list.printList();   
         
-        list.addElementAtkthIndex(7, 2);
+        list.addElementAtkthIndexFromStart(7, 2);
         list.printList();   
         
-        list.addElementAtkthIndex(8, 3);
+        list.addElementAtkthIndexFromStart(8, 3);
         list.printList();   
         
         list.addElementAtStart(10);
@@ -140,6 +196,12 @@ public class Main {
         
         list.addElementAtEnd(15);
         list.printList(); 
+        
+        list.reverse();
+        list.printList();
+        
+        list.reverse();
+        list.printList();
         
         list.deleteElementAtStart();
         list.printList(); 
@@ -158,5 +220,32 @@ public class Main {
         
         list.deleteElementAtkthIndex(0);
         list.printList(); 
+        
+        list.addElementAtKthIndexFromEnd(50, 2);
+        list.printList();
+        
+        list.addElementAtKthIndexFromEnd(60, 2);
+        list.printList();
+        
+        list.addElementAtKthIndexFromEnd(70, 4);
+        list.printList();
+        
+        list.addElementAtKthIndexFromEnd(80, 0);
+        list.printList();
+        
+        list.deleteElementAtKthIndexFromEnd(2);
+        list.printList();
+        
+        list.deleteElementAtKthIndexFromEnd(2);
+        list.printList();
+        
+        list.deleteElementAtKthIndexFromEnd(2);
+        list.printList();
+        
+        list.deleteElementAtKthIndexFromEnd(0);
+        list.printList();
+        
+        list.reverse();
+        list.printList();
     }
 }
