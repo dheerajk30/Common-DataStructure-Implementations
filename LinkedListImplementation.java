@@ -198,6 +198,52 @@ class MyList{
         }
     }
     
+    void reorderList() {
+        //1. find length => l
+        Node temp = this.root;
+        int l = 0;
+        while(temp != null){
+            temp = temp.next;
+            l++;
+        }
+        
+        //2. find segment length , k = len/2
+        // first segment => [0, k-1]
+        // second segment => [k, l-1]
+        int k = l/2;
+        
+        //3. initialize fp as pointer on segment1
+        //   initialize sp as pointer on segment2
+        Node fp = this.root;
+        Node sp = this.root;
+        int counter = 0;
+        while(sp!=null && counter<k-1){
+            sp = sp.next; 
+            counter++;
+        }
+        
+        Node prev = null;
+        Node curr = sp.next;
+        Node nxt;
+        // 4. reverse second segment and append to first
+        while(curr!=null){
+            nxt = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nxt;    
+        }
+        sp.next = null;
+        sp = prev;
+        
+        //5 update pointers and links
+        while(fp != null && sp != null){
+            Node tmp = sp.next;
+            sp.next = fp.next;
+            fp.next = sp;
+            fp = sp.next;
+            sp = tmp;
+        }
+    }
     //O(n) Operation
     void printList(){
         if(this.root == null) {
@@ -284,6 +330,9 @@ public class Main {
         list.printList();
         
         list.deleteElementAtKthIndexFromEnd(2);
+        list.printList();
+        
+        list.reorderList();
         list.printList();
         
         list.deleteElementAtKthIndexFromEnd(2);
